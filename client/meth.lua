@@ -112,6 +112,7 @@ Citizen.CreateThread(function()
                             packagedMeth = packagedMeth + 1
                             rawMeth = rawMeth - 1
                             ClearPedTasksImmediately(playerPed)
+                            TriggerServerEvent('esx_druglabs:server:addMethStorage', packagedMeth)
                         else
                             ESX.ShowNotification('There is not enough raw meth.')
                         end

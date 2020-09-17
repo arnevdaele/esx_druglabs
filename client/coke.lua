@@ -83,6 +83,7 @@ Citizen.CreateThread(function()
                             cuttedCoke = cuttedCoke - 1
                             packagedCoke = packagedCoke + 1
                             ClearPedTasksImmediately(playerPed)
+                            TriggerServerEvent('esx_druglabs:server:addCokeStorage', packagedCoke)
                         else
                             ESX.ShowNotification('There is not enough cutted cocaine.')
                         end

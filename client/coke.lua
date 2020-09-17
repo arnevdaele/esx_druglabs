@@ -95,20 +95,22 @@ Citizen.CreateThread(function()
             if (GetDistanceBetweenCoords(playerPosition, Config.Locations.coke.process.storage.x, Config.Locations.coke.process.storage.y, Config.Locations.coke.process.storage.z, true) < 5) then
                 DrawMarker(2, Config.Locations.coke.process.storage.x, Config.Locations.coke.process.storage.y, Config.Locations.coke.process.storage.z-0.20, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.3, 0.15, 255, 255, 255, 200, 0, 0, 0, 1, 0, 0, 0)
                 if (GetDistanceBetweenCoords(playerPosition, Config.Locations.coke.process.storage.x, Config.Locations.coke.process.storage.y, Config.Locations.coke.process.storage.z, true) < 3.5) then
-                    DrawText3D(Config.Locations.coke.process.storage.x, Config.Locations.coke.process.storage.y, Config.Locations.coke.process.storage.z+0.25, 'Storage: ~y~' .. packagedCoke .. '~w~ bags')
-                    DrawText3D(Config.Locations.coke.process.storage.x, Config.Locations.coke.process.storage.y, Config.Locations.coke.process.storage.z+0.15, '~g~E~w~ - Clear storage')
-                    if IsControlJustReleased(0, 38) then
-                        if packagedCoke > 0 then
-                            TaskStartScenarioInPlace(playerPed, 'PROP_HUMAN_BUM_BIN', 0, true)
-                            exports['progressBars']:startUI(Config.WaitingTime, "Clearing storage...")
-                            Citizen.Wait(Config.WaitingTime)
-                            TriggerServerEvent('esx_druglabs:server:clearCokeStorage', packagedCoke)
-                            packagedCoke = packagedCoke - packagedCoke
-                            ClearPedTasksImmediately(playerPed)
-                        else
-                            ESX.ShowNotification('There is no cocaine left in the storage.')
+                    ESX.TriggerServerCallback('esx_druglabs:server:checkCokeStorage', function(serverValue)
+                        DrawText3D(Config.Locations.coke.process.storage.x, Config.Locations.coke.process.storage.y, Config.Locations.coke.process.storage.z+0.25, 'Storage: ~y~' .. serverValue .. '~w~ bags')
+                        DrawText3D(Config.Locations.coke.process.storage.x, Config.Locations.coke.process.storage.y, Config.Locations.coke.process.storage.z+0.15, '~g~E~w~ - Clear storage')
+                        if IsControlJustReleased(0, 38) then
+                            if serverValue > 0 then
+                                TaskStartScenarioInPlace(playerPed, 'PROP_HUMAN_BUM_BIN', 0, true)
+                                exports['progressBars']:startUI(Config.WaitingTime, "Clearing storage...")
+                                Citizen.Wait(Config.WaitingTime)
+                                TriggerServerEvent('esx_druglabs:server:clearCokeStorage', serverValue)
+                                packagedCoke = packagedCoke - packagedCoke
+                                ClearPedTasksImmediately(playerPed)
+                            else
+                                ESX.ShowNotification('There is no cocaine left in the storage.')
+                            end
                         end
-                    end
+                    end)
                 end
             end
 

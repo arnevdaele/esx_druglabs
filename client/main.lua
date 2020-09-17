@@ -31,10 +31,6 @@ Citizen.CreateThread(function()
 	ESX.PlayerData = ESX.GetPlayerData()
 end)
 
-AddEventHandler('onResourceStart', function(resource)
-	isLoggedIn = true
-end)
-
 RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function(playerData)
     isLoggedIn = true

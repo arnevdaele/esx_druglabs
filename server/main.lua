@@ -4,7 +4,10 @@
 ---------------------------------------
 
 ESX = nil
-TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+
+TriggerEvent('esx:getSharedObject', function(library) 
+        ESX = library 
+end)
 
 ESX.RegisterServerCallback('esx_druglabs:server:hasMethKey', function(source, cb)
     local sourcePlayer = ESX.GetPlayerFromId(source)

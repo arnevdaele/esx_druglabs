@@ -32,7 +32,7 @@ end)
 RegisterNetEvent('esx_druglabs:server:clearCokeStorage')
 AddEventHandler('esx_druglabs:server:clearCokeStorage', function(amount)
     local sourcePlayer = ESX.GetPlayerFromId(source)
-    local identifier = sourcePlayer.identifier
+    local identifier = sourcePlayer.getIdentifier()
 
     if sourcePlayer.canCarryItem('cokebag', amount) then
         sourcePlayer.addInventoryItem('cokebag', amount)
@@ -53,6 +53,7 @@ end)
 RegisterNetEvent('esx_druglabs:server:clearMethStorage')
 AddEventHandler('esx_druglabs:server:clearMethStorage', function(amount)
     local sourcePlayer = ESX.GetPlayerFromId(source)
+    local identifier = sourcePlayer.getIdentifier()
 
     if sourcePlayer.canCarryItem('methbag', amount) then
         sourcePlayer.addInventoryItem('methbag', amount)
@@ -70,10 +71,11 @@ AddEventHandler('esx_druglabs:server:clearMethStorage', function(amount)
     end
 end)
 
-ESX.RegisterServerCallback('esx_druglabs:checkMethStorage', function(source, cb)
+ESX.RegisterServerCallback('esx_druglabs:server:checkMethStorage', function(source, cb)
     local src = source
     local sourcePlayer = ESX.GetPlayerFromId(src)
-    local identifier = sourcePlayer.identifier
+    local identifier = sourcePlayer.getIdentifier()
+
     MySQL.Async.fetchAll('SELECT methstorage FROM storages WHERE identifier = @identifier',  {
         ['@identifier'] = identifier
     }, function(result)
@@ -83,10 +85,11 @@ ESX.RegisterServerCallback('esx_druglabs:checkMethStorage', function(source, cb)
     end)
 end)
 
-ESX.RegisterServerCallback('esx_druglabs:checkCokeStorage', function(source, cb)
+ESX.RegisterServerCallback('esx_druglabs:server:checkCokeStorage', function(source, cb)
     local src = source
     local sourcePlayer = ESX.GetPlayerFromId(src)
-    local identifier = sourcePlayer.identifier
+    local identifier = sourcePlayer.getIdentifier()
+
     MySQL.Async.fetchAll('SELECT cokestorage FROM storages WHERE identifier = @identifier',  {
         ['@identifier'] = identifier
     }, function(result)

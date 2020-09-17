@@ -6,7 +6,7 @@
 ESX = nil
 
 TriggerEvent('esx:getSharedObject', function(library) 
-        ESX = library 
+    ESX = library 
 end)
 
 ESX.RegisterServerCallback('esx_druglabs:server:hasMethKey', function(source, cb)
@@ -51,4 +51,30 @@ AddEventHandler('esx_druglabs:server:clearMethStorage', function(amount)
     else
         sourcePlayer.showNotification("You can't carry this amount of bags...")
     end
+end)
+
+ESX.RegisterServerCallback('esx_druglabs:checkMethStorage', function(source, cb)
+    local src = source
+    local sourcePlayer = ESX.GetPlayerFromId(src)
+    local identifier = sourcePlayer.identifier
+    MySQL.Async.fetchAll('SELECT methstorage FROM storages WHERE identifier = @identifier',  {
+        ['@identifier'] = identifier
+    }, function(result)
+        local amount = result[1].methstorage
+
+        cb(amount)
+    end)
+end)
+
+ESX.RegisterServerCallback('esx_druglabs:checkCokeStorage', function(source, cb)
+    local src = source
+    local sourcePlayer = ESX.GetPlayerFromId(src)
+    local identifier = sourcePlayer.identifier
+    MySQL.Async.fetchAll('SELECT cokestorage FROM storages WHERE identifier = @identifier',  {
+        ['@identifier'] = identifier
+    }, function(result)
+        local amount = result[1].cokestorage
+
+        cb(amount)
+    end)
 end)

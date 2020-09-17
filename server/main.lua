@@ -40,9 +40,8 @@ AddEventHandler('esx_druglabs:server:clearCokeStorage', function(amount)
         MySQL.Async.fetchAll('SELECT cokestorage FROM storages WHERE identifier = @identifier',  {
             ['@identifier'] = identifier
         }, function(result)
-            MySQL.Async.execute('INSERT INTO storages (identifier, cokestorage) VALUES (@identifier, @cokestorage)', {
+            MySQL.Async.execute('UPDATE storages SET cokestorage = cokestorage - amount WHERE identifier = @identifier', {
                 ['@identifier'] = identifier,
-                ['@cokestorage'] = result[1].cokestorage - amount,
             })
         end)
     else
@@ -61,14 +60,21 @@ AddEventHandler('esx_druglabs:server:clearMethStorage', function(amount)
         MySQL.Async.fetchAll('SELECT methstorage FROM storages WHERE identifier = @identifier',  {
             ['@identifier'] = identifier
         }, function(result)
-            MySQL.Async.execute('INSERT INTO storages (identifier, methstorage) VALUES (@identifier, @methstorage)', {
+            MySQL.Async.execute('UPDATE storages SET methstorage = methstorage - amount WHERE identifier = @identifier', {
                 ['@identifier'] = identifier,
-                ['@methstorage'] = result[1].methstorage - amount,
             })
         end)
     else
         sourcePlayer.showNotification("You can't carry this amount of bags...")
     end
+end)
+
+RegisterNetEvent('esx_druglabs:server:addCokeStorage')
+AddEventHandler('esx_druglabs:server:addCokeStorage', function(amount)
+    local src = source
+    local sourcePlayer = ESX.GetPlayerFromId(src)
+
+    
 end)
 
 ESX.RegisterServerCallback('esx_druglabs:server:checkMethStorage', function(source, cb)

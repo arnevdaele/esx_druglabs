@@ -14,7 +14,7 @@ Citizen.CreateThread(function()
         Citizen.Wait(1)
 
         local playerPed = PlayerPedId()
-        local playerPosition = GetEntityCoords(playerPed)
+        local playerPosition = GetEntityCoords(PlayerPedId())
 
         if hasMethKey then
             -- MAIN METH TELEPORTER
@@ -124,20 +124,22 @@ Citizen.CreateThread(function()
             if (GetDistanceBetweenCoords(playerPosition, Config.Locations.meth.process.storage.x, Config.Locations.meth.process.storage.y, Config.Locations.meth.process.storage.z, true) < 5) then
                 DrawMarker(2, Config.Locations.meth.process.storage.x, Config.Locations.meth.process.storage.y, Config.Locations.meth.process.storage.z-0.20, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.3, 0.15, 255, 255, 255, 200, 0, 0, 0, 1, 0, 0, 0)
                 if (GetDistanceBetweenCoords(playerPosition, Config.Locations.meth.process.storage.x, Config.Locations.meth.process.storage.y, Config.Locations.meth.process.storage.z, true) < 2.5) then
-                    DrawText3D(Config.Locations.meth.process.storage.x, Config.Locations.meth.process.storage.y, Config.Locations.meth.process.storage.z+0.25, '~g~E~w~ - Clear storage')
-                    DrawText3D(Config.Locations.meth.process.storage.x, Config.Locations.meth.process.storage.y, Config.Locations.meth.process.storage.z+0.05, 'Storage: ~y~' .. packagedMeth .. '~w~ bags')
-                    if IsControlJustReleased(0, 38) then
-                        if packagedMeth > 0 then
-                            TaskStartScenarioInPlace(playerPed, 'PROP_HUMAN_BUM_BIN', 0, true)
-                            exports['progressBars']:startUI(Config.WaitingTime, "Clearing storage...")
-                            Citizen.Wait(Config.WaitingTime)
-                            TriggerServerEvent('esx_druglabs:server:clearMethStorage', packagedMeth)
-                            packagedMeth = packagedMeth - packagedMeth
-                            ClearPedTasksImmediately(playerPed)
-                        else
-                            ESX.ShowNotification('Storage seems to be empty.')
+                    ESX.TriggerServerCallback('esx_druglabs:server:checkMethStorage', function(serverValue)
+                        DrawText3D(Config.Locations.meth.process.storage.x, Config.Locations.meth.process.storage.y, Config.Locations.meth.process.storage.z+0.25, '~g~E~w~ - Clear storage')
+                        DrawText3D(Config.Locations.meth.process.storage.x, Config.Locations.meth.process.storage.y, Config.Locations.meth.process.storage.z+0.05, 'Storage: ~y~' .. serverValue .. '~w~ bags')
+                        if IsControlJustReleased(0, 38) then
+                            if serverValue > 0 then
+                                TaskStartScenarioInPlace(playerPed, 'PROP_HUMAN_BUM_BIN', 0, true)
+                                exports['progressBars']:startUI(Config.WaitingTime, "Clearing storage...")
+                                Citizen.Wait(Config.WaitingTime)
+                                TriggerServerEvent('esx_druglabs:server:clearMethStorage', serverValue)
+                                packagedMeth = packagedMeth - packagedMeth
+                                ClearPedTasksImmediately(playerPed)
+                            else
+                                ESX.ShowNotification('Storage seems to be empty.')
+                            end
                         end
-                    end
+                    end)
                 end
             end
         end

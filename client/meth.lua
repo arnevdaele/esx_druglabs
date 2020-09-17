@@ -13,8 +13,8 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(1)
 
-        local playerPosition = GetEntityCoords(GetPlayerPed(-1))
-        local playerPed = GetPlayerPed(-1)
+        local playerPed = PlayerPedId()
+        local playerPosition = GetEntityCoords(playerPed)
 
         if hasMethKey then
             -- MAIN METH TELEPORTER
@@ -22,7 +22,7 @@ Citizen.CreateThread(function()
                 DrawMarker(2, Config.Locations.meth.teleporters.enter.x, Config.Locations.meth.teleporters.enter.y, Config.Locations.meth.teleporters.enter.z-0.20, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.3, 0.15, 255, 255, 255, 200, 0, 0, 0, 1, 0, 0, 0)
                 if (GetDistanceBetweenCoords(playerPosition, Config.Locations.meth.teleporters.enter.x, Config.Locations.meth.teleporters.enter.y, Config.Locations.meth.teleporters.enter.z, true) < 3.5) then
                     DrawText3D(Config.Locations.meth.teleporters.enter.x, Config.Locations.meth.teleporters.enter.y, Config.Locations.meth.teleporters.enter.z+0.15, '~g~E~w~ - Enter')
-                    if IsControlJustReleased(0, Keys["E"]) then
+                    if IsControlJustReleased(0, 38) then
                         teleportToMethLab()
                     end
                 end
@@ -33,7 +33,7 @@ Citizen.CreateThread(function()
                 DrawMarker(2, Config.Locations.meth.teleporters.exit.x, Config.Locations.meth.teleporters.exit.y, Config.Locations.meth.teleporters.exit.z-0.20, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.3, 0.15, 255, 255, 255, 200, 0, 0, 0, 1, 0, 0, 0)
                 if (GetDistanceBetweenCoords(playerPosition, Config.Locations.meth.teleporters.exit.x, Config.Locations.meth.teleporters.exit.y, Config.Locations.meth.teleporters.exit.z, true) < 3.5) then
                     DrawText3D(Config.Locations.meth.teleporters.exit.x, Config.Locations.meth.teleporters.exit.y, Config.Locations.meth.teleporters.exit.z+0.15, '~g~E~w~ - Leave')
-                    if IsControlJustReleased(0, Keys["E"]) then
+                    if IsControlJustReleased(0, 38) then
                         teleportOutOfMethLab()
                     end
                 end
@@ -44,7 +44,7 @@ Citizen.CreateThread(function()
                 DrawMarker(2, Config.Locations.meth.process.filling.x, Config.Locations.meth.process.filling.y, Config.Locations.meth.process.filling.z-0.20, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.3, 0.15, 255, 255, 255, 200, 0, 0, 0, 1, 0, 0, 0)
                 if (GetDistanceBetweenCoords(playerPosition, Config.Locations.meth.process.filling.x, Config.Locations.meth.process.filling.y, Config.Locations.meth.process.filling.z, true) < 2.5) then
                     DrawText3D(Config.Locations.meth.process.filling.x, Config.Locations.meth.process.filling.y, Config.Locations.meth.process.filling.z+0.15, '~g~E~w~ - Fill tank')
-                    if IsControlJustReleased(0, Keys["E"]) then
+                    if IsControlJustReleased(0, 38) then
                         TaskStartScenarioInPlace(playerPed, 'PROP_HUMAN_BUM_BIN', 0, true)
                         exports['progressBars']:startUI(Config.WaitingTime, "Filling tank...")
                         Citizen.Wait(Config.WaitingTime)
@@ -61,7 +61,7 @@ Citizen.CreateThread(function()
                 if (GetDistanceBetweenCoords(playerPosition, Config.Locations.meth.process.producing.x, Config.Locations.meth.process.producing.y, Config.Locations.meth.process.producing.z, true) < 1.5) then
                     DrawText3D(Config.Locations.meth.process.producing.x, Config.Locations.meth.process.producing.y, Config.Locations.meth.process.producing.z+0.25, '~g~E~w~ - Produce')
                     DrawText3D(Config.Locations.meth.process.producing.x, Config.Locations.meth.process.producing.y, Config.Locations.meth.process.producing.z+0.05, 'Tank: ~y~' .. liquidMeth .. '~w~ liters')
-                    if IsControlJustReleased(0, Keys["E"]) then
+                    if IsControlJustReleased(0, 38) then
                         if liquidMeth >= 1 then
                             TaskStartScenarioInPlace(playerPed, 'PROP_HUMAN_BUM_BIN', 0, true)
                             exports['progressBars']:startUI(Config.WaitingTime, "Producing...")
@@ -82,7 +82,7 @@ Citizen.CreateThread(function()
                 if (GetDistanceBetweenCoords(playerPosition, Config.Locations.meth.process.producing2.x, Config.Locations.meth.process.producing2.y, Config.Locations.meth.process.producing2.z, true) < 2.5) then
                     DrawText3D(Config.Locations.meth.process.producing2.x, Config.Locations.meth.process.producing2.y, Config.Locations.meth.process.producing2.z+0.25, '~g~E~w~ - Process')
                     DrawText3D(Config.Locations.meth.process.producing2.x, Config.Locations.meth.process.producing2.y, Config.Locations.meth.process.producing2.z+0.05, 'Liquid meth: ~y~' .. processedMeth .. '~w~ liters')
-                    if IsControlJustReleased(0, Keys["E"]) then
+                    if IsControlJustReleased(0, 38) then
                         if processedMeth >= 0.5 then
                             TaskStartScenarioInPlace(playerPed, 'PROP_HUMAN_BUM_BIN', 0, true)
                             exports['progressBars']:startUI(Config.WaitingTime, "Processing...")
@@ -104,7 +104,7 @@ Citizen.CreateThread(function()
                 if (GetDistanceBetweenCoords(playerPosition, Config.Locations.meth.process.packaging.x, Config.Locations.meth.process.packaging.y, Config.Locations.meth.process.packaging.z, true) < 2.5) then
                     DrawText3D(Config.Locations.meth.process.packaging.x, Config.Locations.meth.process.packaging.y, Config.Locations.meth.process.packaging.z+0.25, '~g~E~w~ - Package')
                     DrawText3D(Config.Locations.meth.process.packaging.x, Config.Locations.meth.process.packaging.y, Config.Locations.meth.process.packaging.z+0.05, 'Raw meth: ~y~' .. rawMeth .. '~w~ kg')
-                    if IsControlJustReleased(0, Keys["E"]) then
+                    if IsControlJustReleased(0, 38) then
                         if rawMeth >= 1 then
                             TaskStartScenarioInPlace(playerPed, 'PROP_HUMAN_BUM_BIN', 0, true)
                             exports['progressBars']:startUI(Config.WaitingTime, "Packaging...")
@@ -126,7 +126,7 @@ Citizen.CreateThread(function()
                 if (GetDistanceBetweenCoords(playerPosition, Config.Locations.meth.process.storage.x, Config.Locations.meth.process.storage.y, Config.Locations.meth.process.storage.z, true) < 2.5) then
                     DrawText3D(Config.Locations.meth.process.storage.x, Config.Locations.meth.process.storage.y, Config.Locations.meth.process.storage.z+0.25, '~g~E~w~ - Clear storage')
                     DrawText3D(Config.Locations.meth.process.storage.x, Config.Locations.meth.process.storage.y, Config.Locations.meth.process.storage.z+0.05, 'Storage: ~y~' .. packagedMeth .. '~w~ bags')
-                    if IsControlJustReleased(0, Keys["E"]) then
+                    if IsControlJustReleased(0, 38) then
                         if packagedMeth > 0 then
                             TaskStartScenarioInPlace(playerPed, 'PROP_HUMAN_BUM_BIN', 0, true)
                             exports['progressBars']:startUI(Config.WaitingTime, "Clearing storage...")
@@ -140,13 +140,12 @@ Citizen.CreateThread(function()
                     end
                 end
             end
-
         end
     end
 end)
 
 function teleportOutOfMethLab()
-    local entity = GetPlayerPed(-1)
+    local entity = PlayerPedId()
     
     DoScreenFadeOut(200)
     Citizen.Wait(200)
@@ -158,7 +157,7 @@ function teleportOutOfMethLab()
 end
 
 function teleportToMethLab()
-    local entity = GetPlayerPed(-1)
+    local entity = PlayerPedId()
     
     DoScreenFadeOut(200)
     Citizen.Wait(200)

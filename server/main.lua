@@ -73,8 +73,22 @@ RegisterNetEvent('esx_druglabs:server:addCokeStorage')
 AddEventHandler('esx_druglabs:server:addCokeStorage', function(amount)
     local src = source
     local sourcePlayer = ESX.GetPlayerFromId(src)
+    local identifier = sourcePlayer.getIdentifier()
 
-    
+    MySQL.Async.execute('UPDATE storages SET cokestorage = cokestorage + amount WHERE identifier = @identifier', {
+        ['@identifier'] = identifier,
+    })
+end)
+
+RegisterNetEvent('esx_druglabs:server:addMethStorage')
+AddEventHandler('esx_druglabs:server:addMethStorage', function(amount)
+    local src = source
+    local sourcePlayer = ESX.GetPlayerFromId(src)
+    local identifier = sourcePlayer.getIdentifier()
+
+    MySQL.Async.execute('UPDATE storages SET methstorage = methstorage + amount WHERE identifier = @identifier', {
+        ['@identifier'] = identifier,
+    })
 end)
 
 ESX.RegisterServerCallback('esx_druglabs:server:checkMethStorage', function(source, cb)

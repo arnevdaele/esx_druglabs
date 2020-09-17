@@ -32,10 +32,19 @@ end)
 RegisterNetEvent('esx_druglabs:server:clearCokeStorage')
 AddEventHandler('esx_druglabs:server:clearCokeStorage', function(amount)
     local sourcePlayer = ESX.GetPlayerFromId(source)
+    local identifier = sourcePlayer.identifier
 
     if sourcePlayer.canCarryItem('cokebag', amount) then
         sourcePlayer.addInventoryItem('cokebag', amount)
         sourcePlayer.showNotification("You cleared up the storage and got ~y~" .. amount .. "~w~ bags of cocaine.")
+        MySQL.Async.fetchAll('SELECT cokestorage FROM storages WHERE identifier = @identifier',  {
+            ['@identifier'] = identifier
+        }, function(result)
+            MySQL.Async.execute('INSERT INTO storages (identifier, cokestorage) VALUES (@identifier, @cokestorage)', {
+                ['@identifier'] = identifier,
+                ['@cokestorage'] = result[1].cokestorage - amount,
+            })
+        end)
     else
         sourcePlayer.showNotification("You can't carry this amount of bags...")
     end
@@ -48,6 +57,14 @@ AddEventHandler('esx_druglabs:server:clearMethStorage', function(amount)
     if sourcePlayer.canCarryItem('methbag', amount) then
         sourcePlayer.addInventoryItem('methbag', amount)
         sourcePlayer.showNotification("You cleared up the storage and got ~y~" .. amount .. "~w~ bags of meth.")
+        MySQL.Async.fetchAll('SELECT methstorage FROM storages WHERE identifier = @identifier',  {
+            ['@identifier'] = identifier
+        }, function(result)
+            MySQL.Async.execute('INSERT INTO storages (identifier, methstorage) VALUES (@identifier, @methstorage)', {
+                ['@identifier'] = identifier,
+                ['@methstorage'] = result[1].methstorage - amount,
+            })
+        end)
     else
         sourcePlayer.showNotification("You can't carry this amount of bags...")
     end

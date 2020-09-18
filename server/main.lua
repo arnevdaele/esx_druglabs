@@ -9,7 +9,7 @@ TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 ESX.RegisterServerCallback('esx_druglabs:server:hasMethKey', function(source, cb)
     local sourcePlayer = ESX.GetPlayerFromId(source)
 
-    if sourcePlayer.getInventoryItem('methkey') ~= nil then
+    if sourcePlayer.getInventoryItem('methkey').count > 0 then
         cb(true)
     else
         cb(false)
@@ -19,7 +19,7 @@ end)
 ESX.RegisterServerCallback('esx_druglabs:server:hasCokeKey', function(source, cb)
     local sourcePlayer = ESX.GetPlayerFromId(source)
 
-    if sourcePlayer.getInventoryItem('cokekey') ~= nil then
+    if sourcePlayer.getInventoryItem('cokekey').count > 0 then
         cb(true)
     else
         cb(false)

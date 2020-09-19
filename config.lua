@@ -5,6 +5,8 @@
 
 Config = {}
 
+Config.useKeys = true
+Config.usingWeight = true
 Config.WaitingTime = 5000
 
 Config.Locations = {

@@ -10,6 +10,13 @@ rawMeth = rawMeth or 0.0
 packagedMeth = packagedMeth or 0
 
 Citizen.CreateThread(function()
+    while not Config.useKeys do
+        Citizen.Wait(1)
+            hasMethKey = true
+    end
+end)
+
+Citizen.CreateThread(function()
     while true do
         Citizen.Wait(1)
 

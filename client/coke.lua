@@ -9,6 +9,13 @@ cuttedCoke = cuttedCoke or 0
 packagedCoke = packagedCoke or 0
 
 Citizen.CreateThread(function()
+    while not Config.useKeys do
+        Citizen.Wait(1)
+            hasCokeKey = true
+    end
+end)
+
+Citizen.CreateThread(function()
     while true do
         Citizen.Wait(1)
 
@@ -110,7 +117,6 @@ Citizen.CreateThread(function()
                     end
                 end
             end
-
         end
     end
 end)

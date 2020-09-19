@@ -40,12 +40,12 @@ AddEventHandler('esx:playerLoaded', function(playerData)
     isLoggedIn = true
 end)
 
-hasCokeKey = false
-hasMethKey = false
+hasCokeKey = true
+hasMethKey = frue
 
 -- CHECK KEYS
 Citizen.CreateThread(function()
-    while true do
+    while Config.useKeys do
         Citizen.Wait(1)
         if ESX ~= nil and isLoggedIn then
             ESX.TriggerServerCallback('esx_druglabs:server:hasMethKey', function(cb)

@@ -13,6 +13,7 @@ author 'Dividerz (Arne)'
 version '1.0.0'
 
 server_scripts {
+	'@mysql-async/lib/MySQL.lua',
 	'config.lua',
 	'server/main.lua'
 }
@@ -27,5 +28,6 @@ client_scripts {
 dependencies {
 	'es_extended',
 	'bob74_ipl',
-	'progressBars'
+	'progressBars',
+	'mysql-async'
 }

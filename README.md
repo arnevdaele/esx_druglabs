@@ -1,7 +1,7 @@
 # ESX DRUGLABS
 Author: https://forum.cfx.re/u/dividerz/summary
 
-Support: Arne#7777 on Discord
+Support: https://discord.gg/WxZ83u3 - New Discord Server for support
 
 # REQUIREMENTS / DEPENDENCIES
 - es_extended (legacy) -> https://github.com/esx-framework/es_extended/tree/v1-final

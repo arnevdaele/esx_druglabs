@@ -38,7 +38,7 @@ AddEventHandler('esx_druglabs:server:clearCokeStorage', function(amount)
             sourcePlayer.showNotification("You can't carry this amount of bags...")
         end
     else
-        local sourceItem = sourcePlayer.getInventoryItem('cokebag')
+        local sourceItem = sourcePlayer.getItem('cokebag')
         if sourceItem.limit ~= -1 and (sourceItem.count + amount) > sourceItem.limit then
             sourcePlayer.showNotification("You can't carry any more cokebags...")
         else
@@ -59,11 +59,11 @@ AddEventHandler('esx_druglabs:server:clearMethStorage', function(amount)
             sourcePlayer.showNotification("You can't carry this amount of bags...")
         end
     else
-        local sourceItem = sourcePlayer.getInventoryItem('methbag')
+        local sourceItem = sourcePlayer.getItem('methbag')
         if sourceItem.limit ~= -1 and (sourceItem.count + amount) > sourceItem.limit then
-            sourcePlayer.showNotification("You can't carry any more cokebags...")
+            sourcePlayer.showNotification("You can't carry any more methbag...")
         else
             sourcePlayer.addInventoryItem('methbag', amount)
-        end  
+        end 
     end
 end)
